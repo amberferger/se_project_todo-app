@@ -7,12 +7,17 @@ import {
 } from "../utils/constants.js";
 
 import Todo from "../components/Todo.js";
+import FormValidator from "../components/FormValidator.js";
 
 const addTodoButton = document.querySelector(".button_action_add");
 const addTodoPopup = document.querySelector("#add-todo-popup");
 const addTodoForm = addTodoPopup.querySelector(".popup__form");
 const addTodoCloseBtn = addTodoPopup.querySelector(".popup__close");
 const todosList = document.querySelector(".todos__list");
+
+// enable page validation
+const newTodoValidator = new FormValidator(validationConfig, addTodoForm);
+newTodoValidator.enableValidation();
 
 const openModal = (modal) => {
   modal.classList.add("popup_visible");
@@ -51,6 +56,7 @@ addTodoForm.addEventListener("submit", (evt) => {
   const todo = generateTodo(values);
   todosList.append(todo);
   closeModal(addTodoPopup);
+  newTodoValidator.resetValidation();
 });
 
 initialTodos.forEach((item) => {
