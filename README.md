@@ -1,17 +1,17 @@
 # Simple Todo App
 
-Give a brief description of the project here. Feel free to give it a different name.
+This application allows a user to create a to-do list.
 
 ## Functionality
 
-Give a more detailed explanation of the project and its functionality.
+The user can add new items to the list, delete items from a list, and specify an optional date associated with the task.
 
 ## Technology
 
-Give a description of the technologies and techniques used. Pictures, GIFs, or screenshots that detail the project features are recommended.
+This project leverages Object-Oriented programming to create and delete to-do items. It also incorporates validation to prevent a user from inputting incorrect information.
 
 ## Deployment
 
 This project is deployed on GitHub Pages:
 
-- ADD LINK HERE
+- https://amberferger.github.io/se_project_todo-app/
