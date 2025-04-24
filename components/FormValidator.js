@@ -70,9 +70,9 @@ class FormValidator {
   }
 
   resetValidation() {
-    //console.log("amber");
     this._formElement.reset();
     this._buttonElement.disabled = true;
+    this._toggleButtonState();
   }
 }
 
