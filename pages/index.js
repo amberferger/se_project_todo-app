@@ -20,7 +20,20 @@ const todosList = document.querySelector(".todos__list");
 // class to open & close the popup
 const addTodoPopup = new PopupWithForm({
   popupSelector: "#add-todo-popup",
-  submitHandler: () => {},
+  submitHandler: (inputValues) => {
+    const name = inputValues.name;
+    const dateInput = inputValues.date;
+
+    // Create a date object and adjust for timezone
+    const date = new Date(dateInput);
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+
+    const id = uuidv4();
+    const values = { name, date, id };
+    renderTodo(values); // add new to do item
+    addTodoPopup.close();
+    newTodoValidator.resetValidation();
+  },
 });
 
 // set event listeners on page
@@ -60,21 +73,21 @@ addTodoButton.addEventListener("click", () => {
 });
 
 // submit to-do item
-addTodoForm.addEventListener("submit", (evt) => {
-  evt.preventDefault();
-  const name = evt.target.name.value;
-  const dateInput = evt.target.date.value;
+//addTodoForm.addEventListener("submit", (evt) => {
+//  evt.preventDefault();
+//  const name = evt.target.name.value;
+//  const dateInput = evt.target.date.value;
 
-  // Create a date object and adjust for timezone
-  const date = new Date(dateInput);
-  date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+// Create a date object and adjust for timezone
+//  const date = new Date(dateInput);
+//  date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
 
-  const id = uuidv4();
-  const values = { name, date, id };
-  renderTodo(values); // add new to do item
-  addTodoPopup.close();
-  newTodoValidator.resetValidation();
-});
+//  const id = uuidv4();
+//  const values = { name, date, id };
+//  renderTodo(values); // add new to do item
+//  addTodoPopup.close();
+//  newTodoValidator.resetValidation();
+//});
 
 // render the initial to do items
 section.renderItems();
