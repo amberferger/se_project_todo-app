@@ -15,7 +15,9 @@ import ToDoCounter from "../components/TodoCounter.js";
 
 const addTodoButton = document.querySelector(".button_action_add");
 const addTodoForm = document.forms["add-todo-form"];
-const todosList = document.querySelector(".todos__list");
+
+// class to update the counter of completed items
+const todoCounter = new ToDoCounter(initialTodos, ".counter__text");
 
 // class to open & close the popup
 const addTodoPopup = new PopupWithForm({
@@ -53,9 +55,23 @@ const section = new Section({
 const newTodoValidator = new FormValidator(validationConfig, addTodoForm);
 newTodoValidator.enableValidation();
 
+// update completed item count when checkbox is changed
+function updateCheckCount(completed) {
+  todoCounter.updateCompleted(completed);
+}
+
+// update completed item count when item is deleted
+function handleDelete(completed) {
+  // if deleted item was checked, decrement completed item count
+  if (completed) {
+    todoCounter.updateCompleted(false);
+  }
+  todoCounter.updateTotal(false); // decrement number of total items
+}
+
 // create to do item
 const generateTodo = (data) => {
-  const todo = new Todo(data, todoSelector);
+  const todo = new Todo(data, todoSelector, updateCheckCount, handleDelete);
   const todoElement = todo.getView();
 
   return todoElement;
@@ -64,30 +80,14 @@ const generateTodo = (data) => {
 // render new to do item
 const renderTodo = (item) => {
   const todo = generateTodo(item);
-  section.addItem(todo);
+  section.addItem(todo); // add item to page
+  todoCounter.updateTotal(true); // increase number of total items
 };
 
 // open popup
 addTodoButton.addEventListener("click", () => {
   addTodoPopup.open();
 });
-
-// submit to-do item
-//addTodoForm.addEventListener("submit", (evt) => {
-//  evt.preventDefault();
-//  const name = evt.target.name.value;
-//  const dateInput = evt.target.date.value;
-
-// Create a date object and adjust for timezone
-//  const date = new Date(dateInput);
-//  date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
-
-//  const id = uuidv4();
-//  const values = { name, date, id };
-//  renderTodo(values); // add new to do item
-//  addTodoPopup.close();
-//  newTodoValidator.resetValidation();
-//});
 
 // render the initial to do items
 section.renderItems();
